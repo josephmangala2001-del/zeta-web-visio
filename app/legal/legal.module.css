@@ -1,0 +1,148 @@
+.hero {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: clamp(48px, 7vw, 88px) var(--gutter) 32px;
+}
+
+.h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.3rem, 5vw, 3.8rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+
+.updated {
+  margin-top: 14px;
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+
+.notice,
+.draft {
+  max-width: 720px;
+  margin-top: 20px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.notice {
+  background: var(--blush);
+  color: var(--ink);
+}
+
+.draft {
+  border: 1.5px dashed #e7b500;
+  background: #fff9db;
+  color: #5c4a00;
+}
+
+.layout {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(64px, 9vw, 112px);
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: start;
+}
+
+/* Contents stay in view while reading, below the floating nav. */
+.toc {
+  position: sticky;
+  top: 104px;
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: #f7f8fa;
+  font-size: 14px;
+}
+
+.toc p {
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.toc ol {
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 6px 10px;
+  border-radius: 10px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  line-height: 1.35;
+}
+
+.toc a:hover {
+  background: var(--white);
+  color: var(--ink);
+}
+
+.doc {
+  max-width: 760px;
+}
+
+.intro {
+  font-size: 1.12rem;
+  color: var(--ink);
+}
+
+.section {
+  scroll-margin-top: 104px;
+  padding-top: 36px;
+}
+
+.section h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+
+.section p,
+.section ul {
+  color: var(--ink-soft);
+}
+
+.section p + p,
+.section p + ul,
+.section ul + p {
+  margin-top: 12px;
+}
+
+.section ul {
+  display: grid;
+  gap: 8px;
+  list-style: disc;
+  padding-inline-start: 22px;
+}
+
+.section li::marker {
+  color: var(--red);
+}
+
+.todo {
+  padding: 1px 5px;
+  border-radius: 6px;
+  background: #fff1a8;
+  color: #4a3d00;
+  font-weight: 600;
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .toc {
+    position: static;
+  }
+}

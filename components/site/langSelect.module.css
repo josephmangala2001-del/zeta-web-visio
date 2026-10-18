@@ -1,0 +1,100 @@
+.root {
+  position: relative;
+}
+
+/* Same outlined pill as the former FR/EN switch. */
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 44px;
+  padding: 0 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  background: transparent;
+  color: #ffffff;
+  font: 600 13px/1 var(--font-mono), monospace;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.trigger:hover,
+.trigger[aria-expanded="true"] {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.globe,
+.chevron {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chevron {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  inset-inline-end: 0;
+  z-index: 50;
+  min-width: 200px;
+  padding: 6px;
+  list-style: none;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 24px 48px -16px rgba(22, 15, 15, 0.4), 0 0 0 1px rgba(22, 15, 15, 0.06);
+  animation: drop 0.16s ease-out both;
+}
+
+.menu button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: #160f0f;
+  font: 600 15px/1.2 var(--font-body), system-ui, sans-serif;
+  text-align: start;
+  cursor: pointer;
+}
+
+.menu button:hover {
+  background: #fff3f1;
+}
+
+.menu .active {
+  background: #160f0f;
+  color: #ffffff;
+}
+
+.menu .active:hover {
+  background: #160f0f;
+}
+
+.code {
+  font: 500 12px/1 var(--font-mono), monospace;
+  opacity: 0.55;
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}

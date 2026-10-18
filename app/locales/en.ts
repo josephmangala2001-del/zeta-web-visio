@@ -1,0 +1,97 @@
+import type { BecomeCopyFn, MentorsCopy } from "./types";
+
+export const mentors: MentorsCopy = {
+  back: "All tracks",
+  titlePrefix: "Mentors in",
+  search: "Search a mentor or a company…",
+  price: { all: "Any price", low: "Under €60", mid: "€60 – €80", high: "Over €80" },
+  allCountries: "All countries",
+  sortLabel: "Sort by",
+  sort: { relevance: "Relevance", priceAsc: "Price: low to high", priceDesc: "Price: high to low", rating: "Top rated" },
+  tomorrow: "Available tomorrow",
+  count: (n) => `${n} professional${n > 1 ? "s" : ""} available`,
+  perHour: "/ hour",
+  session: "60-min session",
+  reviews: (n) => `${n} review${n > 1 ? "s" : ""}`,
+  book: "Book a session",
+  message: "Send a message",
+  availability: "Availability",
+  next: "Next slot",
+  pickTime: "Pick a time",
+  favorite: "Add to favorites",
+  verified: "Verified profile",
+  empty: "No mentor matches these filters.",
+  reset: "Reset filters",
+  modalBook: (name) => `Book with ${name}`,
+  modalMessage: (name) => `Message ${name}`,
+  modalSub: "Sessions are booked in the Zeeta app. Scan the QR code to continue on your phone.",
+  close: "Close",
+  download: "Get the app",
+  downloadSub: "Scan the QR code with your phone.",
+};
+
+export const become: BecomeCopyFn = ({ min, max, tracks }) => ({
+  title: "Share your experience with those aiming for your job",
+  subtitle: "Banking, consulting, tech: run mock interviews over video and set your own rate.",
+  steps: [
+    { title: "Create your profile", desc: "Background, specialties and rate, in a few minutes in the app." },
+    { title: "Get verified", desc: "We check your identity and background before your profile goes live." },
+    { title: "Meet candidates", desc: "They book your slots, you run the session in the Zeeta video room." },
+  ],
+  cta: "Create my mentor profile",
+  already: "Already a mentor? Go to my space",
+  rate: "Rate",
+  perHour: "/ hour",
+  benefits: [
+    {
+      title: "Set your rate",
+      desc: `Choose your hourly rate and change it anytime. On Zeeta, mentors currently charge between ${min} and ${max} per hour.`,
+    },
+    {
+      title: "Mentor whenever you want",
+      desc: "Open slots around your schedule, evenings or weekends. No minimum volume, no fixed schedule.",
+    },
+    {
+      title: "Stay sharp",
+      desc: "Running interviews sharpens your recruiter's eye and grows your network in your field.",
+    },
+  ],
+  toolsTitle: "Everything you need to mentor, in one app",
+  toolsSub: "Zeeta handles matching, scheduling and the video room. You focus on the interview.",
+  tools: [
+    "Candidates find you by track and by company",
+    "A calendar and slots that are always up to date",
+    "The Zeeta video room, nothing to install",
+    "A reminder before every session",
+    "A feedback template after every session",
+    "A “verified profile” badge on your page",
+  ],
+  screensAlt: ["Mentor dashboard in the Zeeta app", "Candidates looking for a mentor in the Zeeta app"],
+  quote: (text) => `“${text}”`,
+  faqTitle: "Frequently asked questions",
+  faq: [
+    {
+      q: "Who can become a mentor on Zeeta?",
+      a: "Professionals working in, or coming from, investment banking, markets, consulting, tech, private equity or audit, who know their field's hiring process from the inside.",
+    },
+    { q: "Which tracks can I mentor in?", a: `${tracks}. Pick the ones that match your background.` },
+    {
+      q: "How do I become a mentor?",
+      a: "Download the Zeeta app, create your mentor profile (background, specialties, rate), then verify your identity. Your profile then becomes visible to candidates.",
+    },
+    {
+      q: "How do I set my rate?",
+      a: `You choose it freely and can change it anytime. As a benchmark, Zeeta mentors currently charge between ${min} and ${max} per hour, depending on seniority and track.`,
+    },
+    {
+      q: "What do I need for a session?",
+      a: "A computer or phone with a camera and microphone, and a stable connection. Sessions run in the Zeeta video room, from the browser or the app.",
+    },
+  ],
+  bannerTitle: "Your experience is worth gold to someone",
+  bannerSub: "Join Zeeta's mentors and run your first interview.",
+  modalTitle: "Create your profile in the app",
+  downloadTitle: "Get the app",
+  modalSub: "Mentor profiles are created in the Zeeta app. Scan the QR code with your phone.",
+  close: "Close",
+});

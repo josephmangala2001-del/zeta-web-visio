@@ -1,0 +1,97 @@
+import type { BecomeCopyFn, MentorsCopy } from "./types";
+
+export const mentors: MentorsCopy = {
+  back: "Toutes les filières",
+  titlePrefix: "Mentors en",
+  search: "Rechercher un mentor, une entreprise…",
+  price: { all: "Tous les prix", low: "Moins de 60 €", mid: "60 € – 80 €", high: "Plus de 80 €" },
+  allCountries: "Tous les pays",
+  sortLabel: "Trier",
+  sort: { relevance: "Pertinence", priceAsc: "Prix croissant", priceDesc: "Prix décroissant", rating: "Mieux notés" },
+  tomorrow: "Disponible demain",
+  count: (n) => `${n} professionnel${n > 1 ? "s" : ""} disponible${n > 1 ? "s" : ""}`,
+  perHour: "/ heure",
+  session: "séance de 60 min",
+  reviews: (n) => `${n} avis`,
+  book: "Réserver une séance",
+  message: "Envoyer un message",
+  availability: "Disponibilité",
+  next: "Prochain créneau",
+  pickTime: "Choisissez un créneau",
+  favorite: "Ajouter aux favoris",
+  verified: "Profil vérifié",
+  empty: "Aucun mentor ne correspond à ces filtres.",
+  reset: "Réinitialiser les filtres",
+  modalBook: (name) => `Réserver avec ${name}`,
+  modalMessage: (name) => `Écrire à ${name}`,
+  modalSub: "Les séances se réservent dans l'app Zeeta. Scannez le QR code pour continuer sur votre téléphone.",
+  close: "Fermer",
+  download: "Télécharger l'app",
+  downloadSub: "Scannez le QR code avec votre téléphone.",
+};
+
+export const become: BecomeCopyFn = ({ min, max, tracks }) => ({
+  title: "Partagez votre expérience avec ceux qui visent votre poste",
+  subtitle: "Banque, conseil, tech : faites passer des simulations d'entretien en visio et fixez votre propre tarif.",
+  steps: [
+    { title: "Créez votre profil", desc: "Parcours, spécialités et tarif, en quelques minutes dans l'app." },
+    { title: "Faites-vous vérifier", desc: "Nous vérifions votre identité et votre parcours avant la mise en ligne." },
+    { title: "Recevez des candidats", desc: "Ils réservent vos créneaux, vous menez la séance dans la salle visio Zeeta." },
+  ],
+  cta: "Créer mon profil mentor",
+  already: "Déjà mentor ? Accéder à mon espace",
+  rate: "Tarif",
+  perHour: "/ heure",
+  benefits: [
+    {
+      title: "Fixez votre tarif",
+      desc: `Vous choisissez votre tarif horaire et le modifiez quand vous voulez. Sur Zeeta, les mentors facturent aujourd'hui entre ${min} et ${max} de l'heure.`,
+    },
+    {
+      title: "Mentorez quand vous voulez",
+      desc: "Vous ouvrez vos créneaux selon votre agenda, le soir ou le week-end. Aucun volume minimum, aucun planning imposé.",
+    },
+    {
+      title: "Restez dans le métier",
+      desc: "Faire passer des entretiens affûte votre regard de recruteur et élargit votre réseau dans votre filière.",
+    },
+  ],
+  toolsTitle: "Tout ce qu'il faut pour mentorer, dans une seule app",
+  toolsSub: "Zeeta s'occupe de la mise en relation, de l'agenda et de la salle visio. Vous vous concentrez sur l'entretien.",
+  tools: [
+    "Des candidats qui vous trouvent par filière et par entreprise",
+    "Un agenda et des créneaux toujours à jour",
+    "La salle visio Zeeta, rien à installer",
+    "Un rappel avant chaque séance",
+    "Une trame de compte-rendu après chaque séance",
+    "Un badge « profil vérifié » sur votre fiche",
+  ],
+  screensAlt: ["Tableau de bord mentor dans l'app Zeeta", "Candidats qui cherchent un mentor dans l'app Zeeta"],
+  quote: (text) => `« ${text} »`,
+  faqTitle: "Questions fréquentes",
+  faq: [
+    {
+      q: "Qui peut devenir mentor sur Zeeta ?",
+      a: "Les professionnels en poste, ou passés par la banque d'affaires, les marchés, le conseil, la tech, le private equity ou l'audit, qui connaissent de l'intérieur les processus de recrutement de leur filière.",
+    },
+    { q: "Dans quelles filières puis-je mentorer ?", a: `${tracks}. Choisissez celles qui correspondent à votre parcours.` },
+    {
+      q: "Comment devenir mentor ?",
+      a: "Téléchargez l'app Zeeta, créez votre profil mentor (parcours, spécialités, tarif), puis faites vérifier votre identité. Votre profil devient ensuite visible des candidats.",
+    },
+    {
+      q: "Comment fixer mon tarif ?",
+      a: `Vous le choisissez librement et pouvez le changer à tout moment. Pour vous situer : les mentors Zeeta facturent aujourd'hui entre ${min} et ${max} de l'heure, selon leur séniorité et leur filière.`,
+    },
+    {
+      q: "De quoi ai-je besoin pour une séance ?",
+      a: "Un ordinateur ou un téléphone avec caméra et micro, et une connexion stable. La séance se déroule dans la salle visio Zeeta, depuis le navigateur ou l'app.",
+    },
+  ],
+  bannerTitle: "Votre expérience vaut de l'or pour quelqu'un",
+  bannerSub: "Rejoignez les mentors Zeeta et faites passer votre premier entretien.",
+  modalTitle: "Créez votre profil dans l'app",
+  downloadTitle: "Télécharger l'app",
+  modalSub: "Le profil mentor se crée dans l'app Zeeta. Scannez le QR code avec votre téléphone.",
+  close: "Fermer",
+});

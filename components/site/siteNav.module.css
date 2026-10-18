@@ -1,0 +1,97 @@
+/* Floating dark-glass pill, same as the landing page nav once scrolled past its hero.
+   Shared by the inner pages (mentor list, become a mentor). */
+.header {
+  position: sticky;
+  top: 14px;
+  z-index: 40;
+  margin-top: 14px;
+  padding: 0 var(--gutter);
+  pointer-events: none;
+}
+
+.nav {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 10px 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(22, 15, 15, 0.72);
+  backdrop-filter: blur(14px);
+  pointer-events: auto;
+}
+
+.nav :focus-visible {
+  outline-color: #ffffff;
+}
+
+.navBrand {
+  display: flex;
+  flex: none;
+}
+
+.navLogo {
+  display: block;
+  height: 28px;
+  width: auto;
+}
+
+.navLinks {
+  display: flex;
+  gap: 28px;
+  flex: 1;
+}
+
+.navLinks a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 6px 0;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+}
+
+.navLinks a:hover,
+.navLinks .navActive {
+  border-bottom-color: #ffffff;
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.navCta {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: 1.5px solid #ffffff;
+  background: #ffffff;
+  color: #160f0f;
+  font: 600 15px/1 var(--font-body), sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.navCta:hover {
+  background: transparent;
+  color: #ffffff;
+}
+
+@media (max-width: 720px) {
+  .navLinks,
+  .navCta {
+    display: none;
+  }
+
+  .nav {
+    padding-left: 18px;
+  }
+}

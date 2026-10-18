@@ -1,0 +1,74 @@
+.footer {
+  background: #160f0f;
+  color: #e9dcda;
+  padding: 72px clamp(16px, 4vw, 48px) 32px;
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+.inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 48px;
+}
+
+.brand img {
+  height: 40px;
+  width: auto;
+}
+
+.brand p {
+  margin-top: 16px;
+  max-width: 28ch;
+  color: #b9a5a3;
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.cols div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cols p {
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.cols a {
+  color: #b9a5a3;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.cols a:hover {
+  color: #ffffff;
+}
+
+.copy {
+  max-width: 1240px;
+  margin: 56px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid #33282a;
+  font-size: 14px;
+  color: #8c7775;
+}
+
+@media (max-width: 960px) {
+  .inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

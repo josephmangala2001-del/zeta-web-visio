@@ -1,0 +1,264 @@
+.h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 5.4vw, 4.4rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  max-width: 18ch;
+}
+
+.h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.9rem, 3.6vw, 2.8rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.arrow {
+  width: 1.05em;
+  height: 1.05em;
+  flex: none;
+  transition: transform 0.2s ease;
+}
+
+:global(html[dir="rtl"]) .arrow {
+  scale: -1 1;
+}
+
+/* ─── HERO ─── */
+.hero {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: clamp(56px, 8vw, 104px) var(--gutter) 48px;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--blush);
+  color: var(--red-text);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.lead {
+  margin-top: 22px;
+  max-width: 56ch;
+  color: var(--ink-soft);
+  font-size: 1.15rem;
+}
+
+/* Overlapping mentor faces, a nod to the people behind the service. */
+.faces {
+  list-style: none;
+  display: flex;
+  margin-top: 36px;
+}
+
+.faces li {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--white);
+  box-shadow: 0 6px 16px -8px rgba(22, 15, 15, 0.5);
+}
+
+.faces li + li {
+  margin-inline-start: -14px;
+}
+
+.faces img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ─── STATS ─── */
+.stats {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.stats div {
+  display: grid;
+  gap: 4px;
+  padding: 28px;
+  border-radius: var(--radius-lg);
+  /* Deeper end of the brand gradient so the white figures keep their contrast. */
+  background: linear-gradient(135deg, #f9655f 0%, #f9403d 50%, #c4211e 100%);
+  color: var(--white);
+}
+
+.stats div:nth-child(2) {
+  background: var(--ink);
+}
+
+.stats div:nth-child(3) {
+  background: var(--blush);
+  color: var(--ink);
+}
+
+.stats strong {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.stats span {
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+/* ─── MISSION ─── */
+.mission {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: clamp(64px, 9vw, 112px) var(--gutter);
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(32px, 5vw, 80px);
+}
+
+.mission p {
+  color: var(--ink-soft);
+  font-size: 1.12rem;
+}
+
+.mission p + p {
+  margin-top: 16px;
+}
+
+/* ─── VALUES ─── */
+.valuesWrap {
+  background: var(--blush);
+}
+
+.values {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: clamp(64px, 9vw, 112px) var(--gutter);
+}
+
+.values ol {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.values li {
+  padding: 28px;
+  border-radius: var(--radius-lg);
+  background: var(--white);
+}
+
+.num {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 18px;
+  border-radius: 12px;
+  background: var(--ink);
+  color: var(--white);
+  font: 700 16px/1 var(--font-mono), monospace;
+}
+
+.values h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+
+.values p {
+  margin-top: 8px;
+  color: var(--ink-soft);
+}
+
+/* ─── CTAS ─── */
+.ctas {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: clamp(64px, 9vw, 112px) var(--gutter);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.ctaCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 240px;
+  padding: 32px;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-lg);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.ctaCard:hover {
+  border-color: var(--ink);
+  transform: translateY(-3px);
+}
+
+.ctaCard:hover .arrow {
+  transform: translateX(4px);
+}
+
+.ctaCard h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.8rem;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.ctaCard p {
+  color: var(--ink-soft);
+}
+
+.ctaCard span {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--red-text);
+}
+
+.ctaDark {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--white);
+}
+
+.ctaDark p {
+  color: #d8c9c7;
+}
+
+.ctaDark span {
+  color: #ff8f8a;
+}
+
+@media (max-width: 960px) {
+  .stats,
+  .values ol,
+  .mission,
+  .ctas {
+    grid-template-columns: 1fr;
+  }
+}

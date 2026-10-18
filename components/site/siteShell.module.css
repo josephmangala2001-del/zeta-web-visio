@@ -1,0 +1,35 @@
+/* Same tokens as the landing page, available to the pages rendered inside the shell. */
+.page {
+  --ink: #160f0f;
+  --ink-soft: #5c4a49;
+  --line: #f0dedb;
+  --line-soft: #eceef1;
+  --blush: #fff3f1;
+  --red: #f9403d;
+  --red-text: #c4211e;
+  --white: #ffffff;
+  --brand-gradient: linear-gradient(135deg, #fdd3cf 0%, #f9a19b 38%, #f9655f 72%, #f9403d 100%);
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --gutter: clamp(16px, 4vw, 48px);
+  --max: 1240px;
+
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.page > main {
+  flex: 1;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
