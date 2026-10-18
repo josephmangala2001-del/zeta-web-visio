@@ -1518,17 +1518,15 @@
   }
   .heroPhones {
     width: min(100%, 340px);
+    /* Phones rise out of the bottom edge of the hero (clipped by .hero), never on the sides. */
     aspect-ratio: 1 / 1.05;
-    overflow: hidden;
-    /* Phones rise out of the bottom edge of the hero instead of floating above it. */
-    margin-bottom: -1px;
   }
   .iphoneBack {
-    left: 2%;
+    left: 6%;
     top: 6%;
   }
   .iphoneFront {
-    right: 2%;
+    right: 6%;
     bottom: auto;
     top: 16%;
   }
