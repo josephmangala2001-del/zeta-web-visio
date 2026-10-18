@@ -646,10 +646,6 @@
   font-size: 1rem;
 }
 
-.catalogCount {
-  display: none;
-}
-
 .catalogCta {
   margin-top: auto;
   display: inline-flex;
@@ -1481,95 +1477,37 @@
   .navActions .navCta {
     display: none;
   }
-
-  /* Phone bar: flat and flush with the top edge (no floating pill), solid ink once past the hero. */
-  .header {
-    top: 0;
-    padding: 0;
-  }
   .nav {
-    max-width: none;
-    padding: 10px 12px 10px var(--gutter);
-    border: none;
-    border-radius: 0;
-  }
-  .headerScrolled .nav {
-    background: var(--ink);
-    backdrop-filter: none;
+    padding: 8px 8px 8px 18px;
   }
   .navLogo {
     height: 24px;
   }
-  /* Open menu fills the screen, like an app drawer. */
-  .headerMenuOpen .nav,
-  .headerScrolled.headerMenuOpen .nav {
-    height: 100dvh;
-    align-content: flex-start;
-    border-radius: 0;
-    padding-right: 12px;
-    box-shadow: none;
-  }
-  .navLinks {
-    padding: 24px 0 0;
-  }
-  .navLinks a {
-    padding: 18px 0;
-    font-size: 1.85rem;
-  }
   .menuCta {
     display: block;
-    margin-top: 28px;
+    margin-top: 20px;
     padding: 18px;
     border: none;
-    border-radius: 14px;
+    border-radius: 16px;
     background: var(--white);
     color: var(--ink);
     font: 700 17px/1 var(--font-body), sans-serif;
     cursor: pointer;
   }
 
-  /* Hero in Preply order: the visual first as a card, then the promise and the action. */
+  /* Hero: shorter top space under the bar, smaller phones so the finder and the app fit in about one screen and a half. */
   .heroInner {
-    padding-top: 72px;
-    padding-bottom: 40px;
-    gap: 28px;
-  }
-  .heroPhones {
-    order: -1;
-    width: 100%;
-    aspect-ratio: auto;
-    height: 248px;
-    margin-top: 0;
-    overflow: hidden;
-    border-radius: 22px;
-    background:
-      radial-gradient(120% 90% at 50% 0%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 70%),
-      rgba(255, 255, 255, 0.18);
-    box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.55);
-  }
-  /* Phones stand inside the card and run out of its bottom edge only. */
-  .iphone {
-    width: 46%;
-  }
-  .iphoneBack {
-    left: 7%;
-    top: 30px;
-  }
-  .iphoneFront {
-    right: 7%;
-    bottom: auto;
-    top: 62px;
-  }
-  .heroTitle {
-    font-size: clamp(2.3rem, 10.6vw, 2.9rem);
+    padding-top: 108px;
+    padding-bottom: 0;
+    gap: 40px;
   }
   .heroSub {
-    margin-top: 16px;
+    margin-top: 18px;
   }
   .finder {
-    margin-top: 24px;
+    margin-top: 28px;
     padding: 16px;
-    border-radius: 18px;
+    border-radius: 22px;
   }
   .trackPills {
     gap: 6px;
@@ -1578,8 +1516,19 @@
     padding: 10px 14px;
     font-size: 14px;
   }
-  .finderCta {
-    border-radius: 12px;
+  .heroPhones {
+    width: min(100%, 340px);
+    /* Phones rise out of the bottom edge of the hero (clipped by .hero), never on the sides. */
+    aspect-ratio: 1 / 1.05;
+  }
+  .iphoneBack {
+    left: 6%;
+    top: 6%;
+  }
+  .iphoneFront {
+    right: 6%;
+    bottom: auto;
+    top: 16%;
   }
 
   .logos {
@@ -1602,130 +1551,50 @@
   .lead {
     font-size: 1.02rem;
   }
-  .h2 {
-    font-size: clamp(2.2rem, 10vw, 2.6rem);
-  }
-
-  /* Tracks become a list, like Preply's languages: thumbnail, name, mentor count, chevron. */
-  .catalog {
+  .catalog,
+  .steps,
+  .quotes {
     grid-template-columns: 1fr;
-    gap: 0;
-    border-top: 1px solid var(--line);
   }
-  .catalog li {
-    border-bottom: 1px solid var(--line);
+  .catalog {
+    gap: 12px;
   }
-  .catalogCard,
-  .catalogCard:hover {
-    display: grid;
-    grid-template-columns: 60px minmax(0, 1fr) 24px;
-    grid-template-areas:
-      "media title chevron"
-      "media count chevron";
-    align-items: center;
-    column-gap: 16px;
-    row-gap: 2px;
-    min-height: 0;
-    padding: 16px 0;
-    border: none;
-    border-radius: 0;
-    background: none;
-    box-shadow: none;
-    transform: none;
-    container-type: normal;
-  }
-  /* Weighted to beat the light/dark overlay rules of the desktop cards. */
-  .catalog .catalogCard::before,
-  .catalog .catalogCard .catalogMedia::after,
-  .catalogLogos,
-  .catalogDesc,
-  .catalogCta {
-    display: none;
-  }
-  .catalogMedia {
-    grid-area: media;
-    position: relative;
-    inset: auto;
-    z-index: 0;
-    width: 60px;
-    height: 60px;
-    border-radius: 14px;
-    overflow: hidden;
-  }
-  .catalogCard:hover .catalogMedia img {
-    transform: none;
+  .catalogCard {
+    min-height: 210px;
+    padding: 24px 22px;
+    border-radius: 22px;
   }
   .catalogTitle {
-    grid-area: title;
-    align-self: end;
-    max-width: none;
-    font-size: 1.15rem;
+    font-size: 1.4rem;
+    max-width: 68%;
   }
-  .catalogCount {
-    grid-area: count;
-    align-self: start;
-    display: block;
-    font-size: 14px;
-    color: var(--ink-soft);
+  .catalogDesc {
+    font-size: 0.95rem;
+    max-width: 58%;
   }
-  .catalogCard::after {
-    content: "";
-    grid-area: chevron;
-    justify-self: end;
-    width: 10px;
-    height: 10px;
-    border-top: 2.5px solid var(--ink);
-    border-right: 2.5px solid var(--ink);
-    transform: rotate(45deg);
+  /* No lift on touch: the press goes straight to the mentor list. */
+  .catalogCard:hover {
+    transform: none;
   }
 
   .videoFrame {
     border-radius: 20px;
   }
 
-  /* Steps and testimonials: swipeable cards, the next one peeking in from the edge. */
-  .steps,
-  .quotes {
-    grid-template-columns: none;
-    grid-auto-flow: column;
-    grid-auto-columns: 84%;
-    gap: 12px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    margin-inline: calc(var(--gutter) * -1);
-    padding: 0 var(--gutter) 8px;
-    scroll-padding-inline: var(--gutter);
-    scrollbar-width: none;
-  }
-  .steps::-webkit-scrollbar,
-  .quotes::-webkit-scrollbar {
-    display: none;
-  }
-  .step,
-  .quote {
-    scroll-snap-align: start;
-  }
-  .step {
-    padding: 14px 14px 22px;
-    border-radius: 22px;
-    background: var(--white);
-    border: 1.5px solid var(--line);
+  .steps {
+    gap: 40px;
   }
   .stepVisual {
-    height: 200px;
+    height: 220px;
     margin-bottom: 18px;
-    border-radius: 14px;
-    padding: 16px;
   }
   .vCard {
-    max-height: 168px;
-  }
-  .step .h3,
-  .stepIndex,
-  .stepDesc {
-    padding-inline: 4px;
+    max-height: 172px;
   }
 
+  .quotes {
+    gap: 14px;
+  }
   .quote {
     gap: 24px;
     border-radius: 22px;
@@ -1800,10 +1669,6 @@
 /* ─── RIGHT-TO-LEFT (Arabic) ─── */
 :global(html[dir="rtl"]) .catalogCard {
   --fade: 270deg;
-}
-
-:global(html[dir="rtl"]) .catalogCard::after {
-  transform: rotate(-135deg);
 }
 
 :global(html[dir="rtl"]) .arrow {

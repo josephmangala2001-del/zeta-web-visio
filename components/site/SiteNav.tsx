@@ -30,13 +30,8 @@ export default function SiteNav({
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMenuOpen(false);
     };
-    // On phones the open menu covers the screen, so the page behind it must not scroll.
-    document.body.style.overflow = "hidden";
     document.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = "";
-      document.removeEventListener("keydown", onKey);
-    };
+    return () => document.removeEventListener("keydown", onKey);
   }, [menuOpen]);
 
   return (

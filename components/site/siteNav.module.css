@@ -176,37 +176,8 @@
     display: none;
   }
 
-  /* Phone bar: flat, solid and flush with the top edge; the open menu fills the screen. */
-  .header {
-    top: 0;
-    margin-top: 0;
-    padding: 0;
-  }
-
   .nav {
-    max-width: none;
-    padding: 10px 12px 10px var(--gutter, 16px);
-    border: none;
-    border-radius: 0;
-    background: #160f0f;
-    backdrop-filter: none;
-  }
-
-  .headerMenuOpen .nav {
-    height: 100dvh;
-    align-content: flex-start;
-    border-radius: 0;
-    padding-right: 12px;
-    box-shadow: none;
-  }
-
-  .navLinks {
-    padding: 24px 0 0;
-  }
-
-  .navLinks a {
-    padding: 18px 0;
-    font-size: 1.85rem;
+    padding: 8px 8px 8px 18px;
   }
 
   .navLogo {
@@ -215,10 +186,10 @@
 
   .menuCta {
     display: block;
-    margin-top: 28px;
+    margin-top: 20px;
     padding: 18px;
     border: none;
-    border-radius: 14px;
+    border-radius: 16px;
     background: #ffffff;
     color: #160f0f;
     font: 700 17px/1 var(--font-body), sans-serif;

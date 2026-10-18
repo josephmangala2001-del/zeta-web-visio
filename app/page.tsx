@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "./page.module.css";
 import { translations, type TrackId } from "./translations";
-import { coaches, type FiliereId } from "./mentors/coaches";
-import { mentorsCopy } from "./locales";
+import type { FiliereId } from "./mentors/coaches";
 import { langQuery } from "./i18n";
 import { useSiteLang } from "./useSiteLang";
 import LangSelect from "../components/site/LangSelect";
@@ -140,14 +139,6 @@ export default function HomePage() {
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
-
-  // On phones the open menu covers the screen, so the page behind it must not scroll.
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [menuOpen]);
 
   const openAuth = () => {
     setMenuOpen(false);
@@ -286,10 +277,6 @@ export default function HomePage() {
                   </span>
                   <span className={styles.catalogTitle}>{item.title}</span>
                   <span className={styles.catalogDesc}>{item.desc}</span>
-                  {/* Shown instead of the description in the phone list. */}
-                  <span className={styles.catalogCount}>
-                    {mentorsCopy[lang].count(coaches.filter((c) => c.filieres.includes(item.id)).length)}
-                  </span>
                   <span className={styles.catalogCta}>
                     {t.catalog.cta}
                     <ZArrow className={styles.arrow} />
