@@ -21,7 +21,7 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Zeeta — Simulations d'entretien en visio",
+  title: "Zeeta",
   description:
     "Entraînez-vous en visio avec des professionnels de la banque, du conseil et de la tech. Un compte-rendu écrit après chaque séance.",
 };
