@@ -117,16 +117,17 @@ export default function HomePage() {
   const t = translations[lang];
 
   useEffect(() => {
-    if (!downloadOpen && !authOpen) return;
+    if (!downloadOpen && !authOpen && !menuOpen) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setDownloadOpen(false);
         setAuthOpen(false);
+        setMenuOpen(false);
       }
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [downloadOpen, authOpen]);
+  }, [downloadOpen, authOpen, menuOpen]);
 
   // Once the gradient hero is out of view, the transparent bar gets a dark glass so the white logo stays readable.
   useEffect(() => {
@@ -147,17 +148,28 @@ export default function HomePage() {
   return (
     <div className={styles.page}>
       {/* ─── NAVBAR ─── */}
-      <header className={`${styles.header} ${scrolled ? styles.headerScrolled : ""}`}>
+      <header className={`${styles.header} ${scrolled ? styles.headerScrolled : ""} ${menuOpen ? styles.headerMenuOpen : ""}`}>
         <nav className={styles.nav} aria-label={t.nav.menu}>
           <a href="#top" className={styles.navBrand} aria-label="Zeeta">
             <img src="/zeeta-wordmark-white.png" alt="Zeeta" className={styles.navLogo} />
           </a>
 
-          <div className={`${styles.navLinks} ${menuOpen ? styles.navLinksOpen : ""}`}>
+          <div id="site-menu" className={`${styles.navLinks} ${menuOpen ? styles.navLinksOpen : ""}`}>
             <a href="#filieres" onClick={() => setMenuOpen(false)}>{t.nav.findMentor}</a>
             <a href="#comment" onClick={() => setMenuOpen(false)}>{t.nav.howItWorks}</a>
             <Link href={`/devenir-mentor${langQuery(lang)}`} onClick={() => setMenuOpen(false)}>{t.nav.becomeMentor}</Link>
             <a href="#faq" onClick={() => setMenuOpen(false)}>{t.nav.faq}</a>
+            {/* On phones the download button lives in the menu, the bar only keeps the language and the toggle. */}
+            <button
+              type="button"
+              className={styles.menuCta}
+              onClick={() => {
+                setMenuOpen(false);
+                setDownloadOpen(true);
+              }}
+            >
+              {t.nav.download}
+            </button>
           </div>
 
           <div className={styles.navActions}>
@@ -169,6 +181,7 @@ export default function HomePage() {
               type="button"
               className={styles.menuToggle}
               aria-expanded={menuOpen}
+              aria-controls="site-menu"
               aria-label={t.nav.menu}
               onClick={() => setMenuOpen((o) => !o)}
             >

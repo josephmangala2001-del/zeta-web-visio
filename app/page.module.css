@@ -211,6 +211,20 @@
   height: 2px;
   background: var(--white);
   border-radius: 2px;
+  transition: transform 0.2s ease;
+}
+
+/* The two bars cross into a close mark while the menu is open. */
+.menuToggle[aria-expanded="true"] span:first-child {
+  transform: translateY(3.5px) rotate(45deg);
+}
+
+.menuToggle[aria-expanded="true"] span:last-child {
+  transform: translateY(-3.5px) rotate(-45deg);
+}
+
+.menuCta {
+  display: none;
 }
 
 /* ─── HERO ─── */
@@ -1370,19 +1384,30 @@
   .navLinksOpen {
     display: flex;
   }
+  /* Open menu: the pill unfolds into a solid ink panel, links set in the display face. */
   .navLinks a {
-    padding: 14px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    font-size: 17px;
+    padding: 16px 2px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.6rem;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    white-space: normal;
   }
-  .navLinks a:last-child {
-    border-bottom: none;
+  .navLinks a:hover {
+    border-bottom-color: rgba(255, 255, 255, 0.16);
+    color: var(--coral);
   }
-  .nav:has(.navLinksOpen) {
+  .headerMenuOpen .nav,
+  .headerScrolled.headerMenuOpen .nav {
     border-radius: 28px;
     padding-right: 14px;
     background: var(--ink);
+    border-color: var(--ink);
     backdrop-filter: none;
+    box-shadow: 0 30px 60px -20px rgba(22, 15, 15, 0.55);
+    transition: none;
   }
   .menuToggle {
     display: flex;
@@ -1412,7 +1437,10 @@
     width: 100%;
   }
 
-  .faqSection,
+  .faqSection {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
   .mentorBlock {
     min-height: 0;
   }
@@ -1449,21 +1477,175 @@
   .navActions .navCta {
     display: none;
   }
+  .nav {
+    padding: 8px 8px 8px 18px;
+  }
+  .navLogo {
+    height: 24px;
+  }
+  .menuCta {
+    display: block;
+    margin-top: 20px;
+    padding: 18px;
+    border: none;
+    border-radius: 16px;
+    background: var(--white);
+    color: var(--ink);
+    font: 700 17px/1 var(--font-body), sans-serif;
+    cursor: pointer;
+  }
+
+  /* Hero: shorter top space under the bar, smaller phones so the finder and the app fit in about one screen and a half. */
+  .heroInner {
+    padding-top: 108px;
+    padding-bottom: 0;
+    gap: 40px;
+  }
+  .heroSub {
+    margin-top: 18px;
+  }
+  .finder {
+    margin-top: 28px;
+    padding: 16px;
+    border-radius: 22px;
+  }
+  .trackPills {
+    gap: 6px;
+  }
+  .trackPill {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  .heroPhones {
+    width: min(100%, 340px);
+    aspect-ratio: 1 / 1.05;
+    overflow: hidden;
+    /* Phones rise out of the bottom edge of the hero instead of floating above it. */
+    margin-bottom: -1px;
+  }
+  .iphoneBack {
+    left: 2%;
+    top: 6%;
+  }
+  .iphoneFront {
+    right: 2%;
+    bottom: auto;
+    top: 16%;
+  }
+
+  .logos {
+    padding-block: 28px;
+    gap: 14px;
+  }
+  .logosLabel {
+    font-size: 14px;
+  }
+
+  .section {
+    padding-block: 64px;
+  }
   .sectionHead {
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .lead {
+    font-size: 1.02rem;
   }
   .catalog,
   .steps,
   .quotes {
     grid-template-columns: 1fr;
   }
-  .catalogCard {
-    min-height: 230px;
+  .catalog {
+    gap: 12px;
   }
-  .logosRow img {
-    transform: scale(0.8);
+  .catalogCard {
+    min-height: 210px;
+    padding: 24px 22px;
+    border-radius: 22px;
+  }
+  .catalogTitle {
+    font-size: 1.4rem;
+    max-width: 68%;
+  }
+  .catalogDesc {
+    font-size: 0.95rem;
+    max-width: 58%;
+  }
+  /* No lift on touch: the press goes straight to the mentor list. */
+  .catalogCard:hover {
+    transform: none;
+  }
+
+  .videoFrame {
+    border-radius: 20px;
+  }
+
+  .steps {
+    gap: 40px;
+  }
+  .stepVisual {
+    height: 220px;
+    margin-bottom: 18px;
+  }
+  .vCard {
+    max-height: 172px;
+  }
+
+  .quotes {
+    gap: 14px;
+  }
+  .quote {
+    gap: 24px;
+    border-radius: 22px;
+  }
+
+  .mentorWrap {
+    padding: 0;
+  }
+  .mentorBlock {
+    border-radius: 0;
+    padding: 56px var(--gutter) 48px;
+  }
+  .mentorPoints {
+    font-size: 15px;
+  }
+  .btnInkLarge {
+    width: 100%;
+    justify-content: center;
+  }
+  .mentorPhones {
+    width: min(100%, 340px);
+    margin-top: 40px;
+  }
+
+  .appSection {
+    padding-top: 64px;
+  }
+  .appActions {
+    width: 100%;
+  }
+  .storeBadge {
+    height: 44px;
+  }
+  .appActions .btnGhost {
+    width: 100%;
+    justify-content: center;
+  }
+  .screens {
+    margin-top: 36px;
+    grid-auto-columns: 64%;
+  }
+
+  .faqQ {
+    padding: 20px 0;
+    font-size: 1.05rem;
+  }
+  .faqIcon {
+    width: 32px;
+    height: 32px;
   }
   .faqA p {
     padding-right: 0;
@@ -1471,8 +1653,11 @@
   .modal {
     padding: 36px 20px 24px;
   }
-  .screens {
-    grid-auto-columns: 64%;
+  .qrGrid {
+    gap: 10px;
+  }
+  .qrItem {
+    padding: 12px;
   }
   .phone {
     border-radius: 26px;
