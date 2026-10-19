@@ -366,12 +366,15 @@
   stroke-linejoin: round;
 }
 
+/* Explicit width: the screenshots are sized in %, so the block must not shrink to fit them.
+   align-items: start keeps each frame as tall as its own screen (the offset one would otherwise stretch the other). */
 .phones {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
-  max-width: 460px;
+  width: min(100%, 460px);
   justify-self: center;
+  align-items: start;
 }
 
 .phone {
