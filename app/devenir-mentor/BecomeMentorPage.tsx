@@ -7,6 +7,7 @@ import SiteNav from "../../components/site/SiteNav";
 import SiteFooter from "../../components/site/SiteFooter";
 import { formatPrice, type Lang } from "../i18n";
 import { becomeCopy } from "../locales";
+import { screenSrc } from "../screens";
 import { useSiteLang } from "../useSiteLang";
 import { coaches } from "../mentors/coaches";
 import { translations } from "../translations";
@@ -144,10 +145,10 @@ export default function BecomeMentorPage({ initialLang }: { initialLang: Lang })
             </div>
             <div className={styles.phones}>
               <div className={styles.phone}>
-                <img src="/screens/mentor-dashboard.webp" alt={c.screensAlt[0]} width={828} height={1792} loading="lazy" />
+                <img src={screenSrc("mentor-dashboard", lang)} alt={c.screensAlt[0]} width={828} height={1792} loading="lazy" />
               </div>
               <div className={`${styles.phone} ${styles.phoneOffset}`}>
-                <img src="/screens/mentor-candidats.webp" alt={c.screensAlt[1]} width={828} height={1792} loading="lazy" />
+                <img src={screenSrc("mentor-candidats", lang)} alt={c.screensAlt[1]} width={828} height={1792} loading="lazy" />
               </div>
             </div>
           </div>

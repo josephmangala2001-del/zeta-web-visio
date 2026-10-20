@@ -7,6 +7,7 @@ import styles from "./page.module.css";
 import { translations, type TrackId } from "./translations";
 import { coaches, type FiliereId } from "./mentors/coaches";
 import { formatPrice, langQuery, localeOf, type Lang } from "./i18n";
+import { screenSrc } from "./screens";
 import { useSiteLang } from "./useSiteLang";
 import LangSelect from "../components/site/LangSelect";
 import SiteFooter from "../components/site/SiteFooter";
@@ -352,10 +353,10 @@ export default function HomePage() {
             {/* Signature: the real app, shown in two iPhones */}
             <div className={styles.heroPhones}>
               <div className={`${styles.iphone} ${styles.iphoneBack}`}>
-                <img src="/screens/connexion.webp" alt={t.hero.phoneAlts[0]} width={828} height={1792} />
+                <img src={screenSrc("connexion", lang)} alt={t.hero.phoneAlts[0]} width={828} height={1792} />
               </div>
               <div className={`${styles.iphone} ${styles.iphoneFront}`}>
-                <img src="/screens/recherche-mentors.webp" alt={t.hero.phoneAlts[1]} width={828} height={1792} />
+                <img src={screenSrc("recherche-mentors", lang)} alt={t.hero.phoneAlts[1]} width={828} height={1792} />
               </div>
             </div>
           </div>
@@ -508,7 +509,7 @@ export default function HomePage() {
             <ul className={styles.mentorPhones} aria-label={t.mentor.screensLabel}>
               {mentorScreens.map((name, i) => (
                 <li key={name} className={styles.phone}>
-                  <img src={`/screens/${name}.webp`} alt={t.mentor.screens[i]} width={828} height={1792} loading="lazy" />
+                  <img src={screenSrc(name, lang)} alt={t.mentor.screens[i]} width={828} height={1792} loading="lazy" />
                 </li>
               ))}
             </ul>
@@ -534,7 +535,7 @@ export default function HomePage() {
             {candidateScreens.map((name, i) => (
               <li key={name} className={styles.screen}>
                 <div className={styles.phone}>
-                  <img src={`/screens/${name}.webp`} alt="" width={828} height={1792} loading="lazy" />
+                  <img src={screenSrc(name, lang)} alt="" width={828} height={1792} loading="lazy" />
                 </div>
                 <h3 className={styles.screenTitle}>{t.app.screens[i].title}</h3>
                 <p className={styles.screenDesc}>{t.app.screens[i].desc}</p>
