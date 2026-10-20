@@ -56,8 +56,11 @@ export const site: Translation = {
       { title: "Haz la entrevista, lee el informe", desc: "Tras la sesión, tu mentor redacta un informe punto por punto y un plan de acción." },
     ],
     mentorTags: ["Valoración", "LBO", "Fit"],
-    slotsLabel: "Martes 22 de abril",
-    slotsConfirm: "Reservar 14:30",
+    booking: {
+      dateTitle: "Elegir una fecha",
+      slotTitle: "Elegir una franja",
+      periods: ["Mañana", "Tarde", "Noche", "Noche tardía"],
+    },
     reportTitle: "Informe · Caso práctico",
     report: [
       { label: "Estructura", verdict: "Bien", good: true },

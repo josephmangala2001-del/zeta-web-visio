@@ -858,6 +858,197 @@
   color: var(--ink-soft);
 }
 
+/* Step 2: the app's booking tab, sizes taken from ProfileDetailsScreen at about 0.83 scale. */
+.vBook {
+  --app-red: #ff4444;
+  width: 100%;
+  max-width: 300px;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  background: var(--white);
+  box-shadow: 0 16px 32px -18px rgba(120, 20, 18, 0.5);
+  color: #1a1a2e;
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.vBook svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.vBookHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.vWeek + .vBookHead {
+  margin-top: 12px;
+}
+
+.vBadge {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #f3f4f6;
+  color: #9ca3af;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.vBadgeDone {
+  background: var(--app-red);
+  color: var(--white);
+}
+
+.vBookTitle {
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.vBookTitle small {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  color: #9ca3af;
+}
+
+.vBookNav {
+  display: flex;
+  gap: 3px;
+  margin-inline-start: auto;
+}
+
+.vBookNav svg {
+  width: 22px;
+  height: 22px;
+  padding: 4px;
+  border-radius: 8px;
+  background: #f3f4f6;
+}
+
+.vWeek,
+.vPeriods {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.vDay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 0;
+  border-radius: 9px;
+  background: #f8f9fb;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.vDay small {
+  margin-bottom: 3px;
+  font-size: 8px;
+  font-weight: 600;
+  color: #9ca3af;
+}
+
+.vDay i {
+  width: 3px;
+  height: 3px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: var(--app-red);
+}
+
+.vDayOn {
+  background: var(--app-red);
+  color: var(--white);
+}
+
+.vDayOn small {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.vDayOff {
+  opacity: 0.4;
+}
+
+.vPeriods {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.vPeriods span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 7px 2px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #f8f9fb;
+  color: #6b7280;
+  font-size: 9px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.vPeriods svg {
+  width: 15px;
+  height: 15px;
+  color: #000000;
+}
+
+.vPeriods .vPeriodOn {
+  border-color: var(--app-red);
+  background: #fff5f5;
+  color: var(--app-red);
+}
+
+.vTimes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.vTimes span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #f8f9fb;
+  color: #374151;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.vTimes svg {
+  width: 11px;
+  height: 11px;
+  color: #9ca3af;
+}
+
+.vTimes .vTimeOn {
+  border-color: var(--app-red);
+  background: var(--app-red);
+  color: var(--white);
+}
+
+.vTimes .vTimeOn svg {
+  color: var(--white);
+}
+
 /* ─── TESTIMONIALS ─── */
 .quotes {
   display: grid;
@@ -1585,7 +1776,8 @@
     gap: 40px;
   }
   .stepVisual {
-    height: 220px;
+    height: auto;
+    min-height: 220px;
     margin-bottom: 18px;
   }
   .vCard {
@@ -1669,6 +1861,10 @@
 /* ─── RIGHT-TO-LEFT (Arabic) ─── */
 :global(html[dir="rtl"]) .catalogCard {
   --fade: 270deg;
+}
+
+:global(html[dir="rtl"]) .vBookNav {
+  flex-direction: row-reverse;
 }
 
 :global(html[dir="rtl"]) .arrow {

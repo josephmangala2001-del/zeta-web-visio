@@ -6,7 +6,7 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import { translations, type TrackId } from "./translations";
 import type { FiliereId } from "./mentors/coaches";
-import { langQuery } from "./i18n";
+import { langQuery, localeOf, type Lang } from "./i18n";
 import { useSiteLang } from "./useSiteLang";
 import LangSelect from "../components/site/LangSelect";
 import SiteFooter from "../components/site/SiteFooter";
@@ -99,6 +99,85 @@ function ZArrow({ className }: { className?: string }) {
       <path d="M2 12.5h12" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
       <path d="M12.5 5.5 22 12.5l-9.5 7z" fill="currentColor" />
     </svg>
+  );
+}
+
+/* The "Agenda" tab of a mentor profile in the app (ProfileDetailsScreen), redrawn so it follows the site language.
+   A fixed week keeps the server and browser renders identical. */
+const bookingWeek = Array.from({ length: 7 }, (_, d) => new Date(Date.UTC(2026, 9, 12 + d, 12)));
+const bookingOpenDays = [0, 1, 2, 4];
+const bookingSelectedDay = 1;
+const bookingTimes = ["14:00", "14:30", "16:00"];
+const bookingSelectedTime = "14:30";
+const bookingSelectedPeriod = 1;
+
+function capitalize(s: string) {
+  return s.charAt(0).toLocaleUpperCase() + s.slice(1);
+}
+
+/* Outline icons drawn after the Ionicons the app uses for the periods (sunny, partly-sunny, cloudy-night, moon). */
+const periodIcons = [
+  <svg key="m" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" /></svg>,
+  <svg key="a" viewBox="0 0 24 24"><path d="M9 4.5v1.6M3.6 9.8h1.6M5.2 6l1.1 1.1M12.9 6l-1.1 1.1" /><path d="M6.6 12.4a3.6 3.6 0 1 1 6.3-3.1" /><path d="M8 20h9.5a3.5 3.5 0 0 0 .4-7 5 5 0 0 0-9.4 1.3A2.9 2.9 0 0 0 8 20z" /></svg>,
+  <svg key="e" viewBox="0 0 24 24"><path d="M14.5 3.5a5 5 0 0 0 6 6.6 5 5 0 0 1-3.3 3" /><path d="M6 20.5h9a3.3 3.3 0 0 0 .3-6.6 4.6 4.6 0 0 0-8.7 1.1A2.8 2.8 0 0 0 6 20.5z" /></svg>,
+  <svg key="n" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z" /></svg>,
+];
+
+function BookingMock({ lang, copy }: { lang: Lang; copy: { dateTitle: string; slotTitle: string; periods: string[] } }) {
+  const locale = localeOf(lang);
+  // Seven narrow columns: Arabic gets its one-letter day names, long Latin ones ("Segunda") are cut to three letters.
+  const weekday = new Intl.DateTimeFormat(locale, { weekday: lang === "ar" ? "narrow" : "short", timeZone: "UTC" });
+  const dayLabel = (date: Date) => {
+    const label = capitalize(weekday.format(date).replace(/\.$/, ""));
+    return label.length > 4 && /^[a-zà-ÿ]+$/i.test(label) ? label.slice(0, 3) : label;
+  };
+  const month = capitalize(new Intl.DateTimeFormat(locale, { month: "long", year: "numeric", timeZone: "UTC" }).format(bookingWeek[0]));
+  return (
+    <div className={styles.vBook}>
+      <div className={styles.vBookHead}>
+        <span className={`${styles.vBadge} ${styles.vBadgeDone}`}>✓</span>
+        <span className={styles.vBookTitle}>
+          {copy.dateTitle}
+          <small>{month}</small>
+        </span>
+        <span className={styles.vBookNav}>
+          <svg viewBox="0 0 24 24"><path d="M14.5 6l-6 6 6 6" /></svg>
+          <svg viewBox="0 0 24 24"><path d="M9.5 6l6 6-6 6" /></svg>
+        </span>
+      </div>
+      <div className={styles.vWeek}>
+        {bookingWeek.map((date, d) => {
+          const open = bookingOpenDays.includes(d);
+          return (
+            <span key={d} className={`${styles.vDay} ${d === bookingSelectedDay ? styles.vDayOn : ""} ${open ? "" : styles.vDayOff}`}>
+              <small>{dayLabel(date)}</small>
+              {date.getUTCDate()}
+              {open && d !== bookingSelectedDay && <i />}
+            </span>
+          );
+        })}
+      </div>
+      <div className={styles.vBookHead}>
+        <span className={`${styles.vBadge} ${styles.vBadgeDone}`}>✓</span>
+        <span className={styles.vBookTitle}>{copy.slotTitle}</span>
+      </div>
+      <div className={styles.vPeriods}>
+        {copy.periods.map((p, k) => (
+          <span key={p} className={k === bookingSelectedPeriod ? styles.vPeriodOn : undefined}>
+            {periodIcons[k]}
+            {p}
+          </span>
+        ))}
+      </div>
+      <div className={styles.vTimes}>
+        {bookingTimes.map((time) => (
+          <span key={time} className={time === bookingSelectedTime ? styles.vTimeOn : undefined}>
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
+            {time}
+          </span>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -322,9 +401,7 @@ export default function HomePage() {
                     {i === 0 && (
                       <img src="/screens/carte-mentor.webp" alt="" className={styles.vCard} width={760} height={678} loading="lazy" />
                     )}
-                    {i === 1 && (
-                      <img src="/screens/agenda-creneau.webp" alt="" className={styles.vCard} width={828} height={661} loading="lazy" />
-                    )}
+                    {i === 1 && <BookingMock lang={lang} copy={t.steps.booking} />}
                     {i === 2 && (
                       <div className={styles.vReport}>
                         <span className={styles.vReportTitle}>{t.steps.reportTitle}</span>

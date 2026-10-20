@@ -44,8 +44,7 @@ export type Translation = {
     title: string;
     items: { title: string; desc: string }[];
     mentorTags: string[];
-    slotsLabel: string;
-    slotsConfirm: string;
+    booking: { dateTitle: string; slotTitle: string; periods: [string, string, string, string] };
     reportTitle: string;
     report: { label: string; verdict: string; good: boolean }[];
     reportAction: string;
@@ -174,8 +173,11 @@ export const translations: Record<Lang, Translation> = {
         { title: "Passez l'entretien, lisez le retour", desc: "Après la séance, votre mentor rédige un retour point par point et un plan d'action." },
       ],
       mentorTags: ["Valorisation", "LBO", "Fit"],
-      slotsLabel: "Mardi 22 avril",
-      slotsConfirm: "Réserver 14:30",
+      booking: {
+        dateTitle: "Choisir une date",
+        slotTitle: "Choisir un créneau",
+        periods: ["Matin", "Après-midi", "Soirée", "Nuit"],
+      },
       reportTitle: "Compte-rendu · Étude de cas",
       report: [
         { label: "Structuration", verdict: "Bien", good: true },
@@ -325,8 +327,11 @@ export const translations: Record<Lang, Translation> = {
         { title: "Do the interview, read the report", desc: "After the session, your mentor writes point-by-point feedback and an action plan." },
       ],
       mentorTags: ["Valuation", "LBO", "Fit"],
-      slotsLabel: "Tuesday, April 22",
-      slotsConfirm: "Book 14:30",
+      booking: {
+        dateTitle: "Choose a date",
+        slotTitle: "Choose a slot",
+        periods: ["Morning", "Afternoon", "Evening", "Night"],
+      },
       reportTitle: "Report · Case study",
       report: [
         { label: "Structuring", verdict: "Good", good: true },

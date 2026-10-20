@@ -56,8 +56,11 @@ export const site: Translation = {
       { title: "أجرِ المقابلة واقرأ التقرير", desc: "بعد الجلسة، يكتب مرشدك ملاحظات مفصّلة وخطة عمل." },
     ],
     mentorTags: ["التقييم", "LBO", "الملاءمة"],
-    slotsLabel: "الثلاثاء 22 أبريل",
-    slotsConfirm: "احجز 14:30",
+    booking: {
+      dateTitle: "اختر تاريخًا",
+      slotTitle: "اختر فترة",
+      periods: ["الصباح", "بعد الظهر", "المساء", "الليل"],
+    },
     reportTitle: "تقرير · دراسة حالة",
     report: [
       { label: "الهيكلة", verdict: "جيد", good: true },

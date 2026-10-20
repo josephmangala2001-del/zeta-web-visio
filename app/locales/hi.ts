@@ -56,8 +56,11 @@ export const site: Translation = {
       { title: "इंटरव्यू दें, रिपोर्ट पढ़ें", desc: "सत्र के बाद आपका मेंटर बिंदुवार फ़ीडबैक और एक्शन प्लान लिखता है।" },
     ],
     mentorTags: ["वैल्यूएशन", "LBO", "फ़िट"],
-    slotsLabel: "मंगलवार, 22 अप्रैल",
-    slotsConfirm: "14:30 बुक करें",
+    booking: {
+      dateTitle: "तारीख चुनें",
+      slotTitle: "स्लॉट चुनें",
+      periods: ["सुबह", "दोपहर", "शाम", "रात"],
+    },
     reportTitle: "रिपोर्ट · केस स्टडी",
     report: [
       { label: "संरचना", verdict: "अच्छा", good: true },

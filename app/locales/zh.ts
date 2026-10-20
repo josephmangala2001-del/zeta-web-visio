@@ -56,8 +56,11 @@ export const site: Translation = {
       { title: "完成面试，阅读反馈", desc: "面试结束后，导师会逐点撰写反馈和行动计划。" },
     ],
     mentorTags: ["估值", "LBO", "匹配度"],
-    slotsLabel: "4 月 22 日星期二",
-    slotsConfirm: "预约 14:30",
+    booking: {
+      dateTitle: "选择日期",
+      slotTitle: "选择时段",
+      periods: ["上午", "下午", "晚上", "深夜"],
+    },
     reportTitle: "反馈 · 案例分析",
     report: [
       { label: "结构化", verdict: "良好", good: true },

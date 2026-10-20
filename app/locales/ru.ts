@@ -65,8 +65,11 @@ export const site: Translation = {
       { title: "Пройдите интервью, прочитайте отчёт", desc: "После сессии ментор пишет подробный разбор и план действий." },
     ],
     mentorTags: ["Оценка", "LBO", "Fit"],
-    slotsLabel: "Вторник, 22 апреля",
-    slotsConfirm: "Забронировать 14:30",
+    booking: {
+      dateTitle: "Выберите дату",
+      slotTitle: "Выберите время",
+      periods: ["Утро", "День", "Вечер", "Ночь"],
+    },
     reportTitle: "Отчёт · Кейс",
     report: [
       { label: "Структура", verdict: "Хорошо", good: true },
