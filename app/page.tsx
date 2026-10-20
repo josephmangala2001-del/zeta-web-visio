@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "./page.module.css";
 import { translations, type TrackId } from "./translations";
-import type { FiliereId } from "./mentors/coaches";
-import { langQuery, localeOf, type Lang } from "./i18n";
+import { coaches, type FiliereId } from "./mentors/coaches";
+import { formatPrice, langQuery, localeOf, type Lang } from "./i18n";
 import { useSiteLang } from "./useSiteLang";
 import LangSelect from "../components/site/LangSelect";
 import SiteFooter from "../components/site/SiteFooter";
@@ -102,6 +102,49 @@ function ZArrow({ className }: { className?: string }) {
   );
 }
 
+/* A mentor card as the app lists them in search (first coach of the demo seed).
+   Company logos come from the same favicon service as the app's CompanyLogo and the mentors page. */
+const mockMentor = coaches[0];
+
+function MentorMock({ lang, tags }: { lang: Lang; tags: string[] }) {
+  const m = mockMentor;
+  return (
+    <div className={styles.vFrame}>
+      <div className={styles.vMentorTop}>
+        <img src={m.photo} alt="" loading="lazy" />
+        <div className={styles.vMentorId}>
+          <strong>
+            {m.name}
+            <svg viewBox="0 0 24 24"><path d="M12 1.5l2.6 2 3.3-.2.9 3.2 2.7 1.9-1.2 3.1 1.2 3.1-2.7 1.9-.9 3.2-3.3-.2-2.6 2-2.6-2-3.3.2-.9-3.2-2.7-1.9 1.2-3.1-1.2-3.1 2.7-1.9.9-3.2 3.3.2z" /><path d="M8 12.2l2.7 2.7L16.2 9.4" fill="none" stroke="#fff" strokeWidth="2.2" /></svg>
+          </strong>
+          <span>{m.title}</span>
+          <span className={styles.vMentorTags}>
+            {tags.map((tag) => (
+              <em key={tag}>{tag}</em>
+            ))}
+          </span>
+        </div>
+        <svg className={styles.vMentorHeart} viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10.1A4.3 4.3 0 0 1 12 7.3a4.3 4.3 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z" /></svg>
+      </div>
+      <div className={styles.vMentorMeta}>
+        <strong>{formatPrice(m.price, lang)} / h</strong>
+        <span>
+          <b>★</b> {m.rating.toLocaleString(localeOf(lang))} · {m.city}
+        </span>
+      </div>
+      <div className={styles.vMentorXp}>
+        {m.experiences.map((x) => (
+          <div key={x.company}>
+            <img src={`https://www.google.com/s2/favicons?domain=${x.domain}&sz=64`} alt="" loading="lazy" />
+            {x.company}
+            <span>{x.role}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* The "Agenda" tab of a mentor profile in the app (ProfileDetailsScreen), redrawn so it follows the site language.
    A fixed week keeps the server and browser renders identical. */
 const bookingWeek = Array.from({ length: 7 }, (_, d) => new Date(Date.UTC(2026, 9, 12 + d, 12)));
@@ -133,7 +176,7 @@ function BookingMock({ lang, copy }: { lang: Lang; copy: { dateTitle: string; sl
   };
   const month = capitalize(new Intl.DateTimeFormat(locale, { month: "long", year: "numeric", timeZone: "UTC" }).format(bookingWeek[0]));
   return (
-    <div className={styles.vBook}>
+    <div className={styles.vFrame}>
       <div className={styles.vBookHead}>
         <span className={`${styles.vBadge} ${styles.vBadgeDone}`}>✓</span>
         <span className={styles.vBookTitle}>
@@ -398,12 +441,10 @@ export default function HomePage() {
               {t.steps.items.map((step, i) => (
                 <li key={step.title} className={styles.step}>
                   <div className={styles.stepVisual} aria-hidden="true">
-                    {i === 0 && (
-                      <img src="/screens/carte-mentor.webp" alt="" className={styles.vCard} width={760} height={678} loading="lazy" />
-                    )}
+                    {i === 0 && <MentorMock lang={lang} tags={t.steps.mentorTags} />}
                     {i === 1 && <BookingMock lang={lang} copy={t.steps.booking} />}
                     {i === 2 && (
-                      <div className={styles.vReport}>
+                      <div className={`${styles.vFrame} ${styles.vReport}`}>
                         <span className={styles.vReportTitle}>{t.steps.reportTitle}</span>
                         {t.steps.report.map((r) => (
                           <div key={r.label} className={styles.vReportRow}>

@@ -723,125 +723,165 @@
   color: var(--ink-soft);
 }
 
-/* Step visuals: small fragments of the real product */
-.vCard {
-  display: block;
-  max-width: 100%;
-  /* .stepVisual is 250px tall with 24px padding */
-  max-height: 202px;
-  width: auto;
-  height: auto;
-  border-radius: 14px;
-  box-shadow: 0 18px 36px -18px rgba(22, 15, 15, 0.45);
-}
-
-.vMentor,
-.vSlots,
-.vReport {
+/* Step visuals: small fragments of the real product.
+   One frame for all three, so the cards line up whatever they show. */
+.vFrame {
+  --app-red: #ff4444;
   width: 100%;
   max-width: 300px;
-  background: var(--white);
-  border-radius: var(--radius-md);
-  padding: 18px;
-  box-shadow: 0 16px 32px -18px rgba(120, 20, 18, 0.5);
-  font-size: 14px;
-  line-height: 1.35;
-}
-
-.vMentor {
+  height: 196px;
   display: flex;
-  gap: 14px;
-  align-items: flex-start;
+  flex-direction: column;
+  padding: 12px;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--white);
+  box-shadow: 0 16px 32px -18px rgba(120, 20, 18, 0.5);
+  color: #1a1a2e;
+  font-size: 10px;
+  line-height: 1.25;
 }
 
-.vMentor strong {
-  display: block;
-  font-size: 16px;
+.vFrame svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-.vMentor span:not(.vAvatar) {
-  display: block;
-  color: var(--ink-soft);
-  font-size: 13px;
+/* Step 1: a mentor card from the search results (ProfileCard in the app). */
+.vMentorTop {
+  display: flex;
+  gap: 10px;
 }
 
-.vAvatar {
+.vMentorTop img {
   flex: none;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: var(--brand-gradient);
-  color: var(--white);
-  font: 900 18px/1 var(--font-display);
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  object-fit: cover;
 }
 
-.vTags {
+.vMentorId {
+  flex: 1;
+  min-width: 0;
+}
+
+.vMentorId strong {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12.5px;
+}
+
+.vMentorId strong svg {
+  width: 12px;
+  height: 12px;
+  fill: #1d9bf0;
+  stroke: none;
+}
+
+.vMentorId > span {
+  display: block;
+  color: #6b7280;
+}
+
+.vMentorTags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 12px;
+  gap: 3px;
+  margin-top: 5px;
 }
 
-.vTags em {
-  font-style: normal;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 5px 9px;
+.vMentorTags em {
+  padding: 2px 6px;
   border-radius: 999px;
-  background: var(--blush);
+  background: #f3f4f6;
+  color: #4b5563;
+  font-size: 8.5px;
+  font-style: normal;
+  font-weight: 600;
 }
 
-.vSlotsLabel,
+.vMentorHeart {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  color: #6b7280;
+}
+
+.vMentorMeta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.vMentorMeta strong {
+  font-size: 12px;
+}
+
+.vMentorMeta span {
+  color: #6b7280;
+}
+
+.vMentorMeta b {
+  color: #f5a524;
+}
+
+.vMentorXp {
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.vMentorXp div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-top: 1px solid #f0f0f5;
+  font-weight: 600;
+}
+
+.vMentorXp img {
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
+  object-fit: contain;
+}
+
+.vMentorXp span {
+  margin-inline-start: auto;
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+/* Step 3: the written report. */
+.vReport {
+  font-size: 12px;
+}
+
 .vReportTitle {
   display: block;
+  font-size: 12.5px;
   font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.vSlotsGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-}
-
-.vSlotsGrid span {
-  text-align: center;
-  padding: 8px 0;
-  border-radius: 10px;
-  border: 1.5px solid var(--line);
-  font: 500 13px/1 var(--font-mono), monospace;
-}
-
-.vSlotsGrid .vSlotOn {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--white);
-}
-
-.vSlotsBtn {
-  display: block;
-  margin-top: 12px;
-  text-align: center;
-  padding: 10px;
-  border-radius: 10px;
-  background: var(--red);
-  color: var(--white);
-  font-weight: 700;
+  margin-bottom: 8px;
 }
 
 .vReportRow {
   display: flex;
   justify-content: space-between;
-  padding: 7px 0;
+  padding: 9px 0;
   border-bottom: 1px solid var(--line);
 }
 
 .vReportRow em {
   font-style: normal;
   font-weight: 700;
-  font-size: 13px;
 }
 
 .vGood {
@@ -853,48 +893,27 @@
 }
 
 .vReport p {
-  margin-top: 10px;
-  font-size: 13px;
+  margin-top: auto;
+  font-size: 10.5px;
   color: var(--ink-soft);
 }
 
-/* Step 2: the app's booking tab, sizes taken from ProfileDetailsScreen at about 0.83 scale. */
-.vBook {
-  --app-red: #ff4444;
-  width: 100%;
-  max-width: 300px;
-  padding: 12px;
-  border-radius: var(--radius-md);
-  background: var(--white);
-  box-shadow: 0 16px 32px -18px rgba(120, 20, 18, 0.5);
-  color: #1a1a2e;
-  font-size: 10px;
-  line-height: 1.2;
-}
-
-.vBook svg {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
+/* Step 2: the app's booking tab, sizes taken from ProfileDetailsScreen at about 0.8 scale. */
 .vBookHead {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .vWeek + .vBookHead {
-  margin-top: 12px;
+  margin-top: 6px;
 }
 
 .vBadge {
   flex: none;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -912,6 +931,7 @@
 .vBookTitle {
   font-size: 12.5px;
   font-weight: 700;
+  line-height: 1.15;
 }
 
 .vBookTitle small {
@@ -928,8 +948,8 @@
 }
 
 .vBookNav svg {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   padding: 4px;
   border-radius: 8px;
   background: #f3f4f6;
@@ -946,7 +966,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 6px 0;
+  padding: 5px 0;
   border-radius: 9px;
   background: #f8f9fb;
   font-size: 12px;
@@ -954,7 +974,7 @@
 }
 
 .vDay small {
-  margin-bottom: 3px;
+  margin-bottom: 1px;
   font-size: 8px;
   font-weight: 600;
   color: #9ca3af;
@@ -990,8 +1010,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
-  padding: 7px 2px;
+  gap: 2px;
+  padding: 5px 2px;
   border-radius: 10px;
   border: 1px solid #e5e7eb;
   background: #f8f9fb;
@@ -1002,8 +1022,8 @@
 }
 
 .vPeriods svg {
-  width: 15px;
-  height: 15px;
+  width: 13px;
+  height: 13px;
   color: #000000;
 }
 
@@ -1017,14 +1037,14 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .vTimes span {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 6px 10px;
+  padding: 4px 10px;
   border-radius: 8px;
   border: 1px solid #e5e7eb;
   background: #f8f9fb;
@@ -1776,12 +1796,9 @@
     gap: 40px;
   }
   .stepVisual {
-    height: auto;
-    min-height: 220px;
+    height: 236px;
+    padding: 20px 16px;
     margin-bottom: 18px;
-  }
-  .vCard {
-    max-height: 172px;
   }
 
   .quotes {
