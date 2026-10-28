@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { LOGO_BUCKET, supabase, type LogoRow, type OrgKind, type QueueRow } from "./supabase";
-import { BlockedMessagesPanel, ReportsPanel } from "./Moderation";
+import { BlockedMessagesPanel, BlockedTermsPanel, ReportsPanel } from "./Moderation";
 
 // ─── Rendu identique à app/components/CompanyLogo.tsx de l'app mobile ───
 
@@ -197,11 +197,12 @@ type Draft = {
   aliases: string;
 };
 
-type Section = "logos" | "reports" | "blocked";
+type Section = "logos" | "reports" | "blocked" | "terms";
 
 const SECTIONS: [Section, string][] = [
   ["reports", "Signalements"],
   ["blocked", "Messages bloqués"],
+  ["terms", "Mots interdits"],
   ["logos", "Écoles et entreprises"],
 ];
 
@@ -237,6 +238,7 @@ function Dashboard({ email }: { email: string }) {
 
         {section === "reports" && <ReportsPanel />}
         {section === "blocked" && <BlockedMessagesPanel />}
+        {section === "terms" && <BlockedTermsPanel />}
         {section === "logos" && <LogosPanel />}
       </div>
     </main>
