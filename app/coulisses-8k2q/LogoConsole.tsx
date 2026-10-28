@@ -204,6 +204,7 @@ function Dashboard({ email }: { email: string }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [draft, setDraft] = useState<Draft | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
 
   const loadQueue = useCallback(async (q: string) => {
     const { data, error } = await supabase.rpc("admin_logo_queue", { p_query: q || null, p_limit: 200 });
@@ -287,10 +288,15 @@ function Dashboard({ email }: { email: string }) {
             onClick={() => setDraft({ existing: null, name: query.trim(), kind: "company", aliases: "" })}
             className="rounded-lg bg-[#d41111] px-4 py-1.5 text-sm font-semibold text-white"
           >
-            + Nouveau logo
+            + Ajouter
           </button>
         </div>
 
+        {notice && (
+          <p className="mb-4 rounded-lg bg-[#e6f4ea] px-3 py-2 text-sm text-[#1e6b34]" onClick={() => setNotice(null)}>
+            {notice}
+          </p>
+        )}
         {error && (
           <p className="mb-4 rounded-lg bg-[#ffdfdf] px-3 py-2 text-sm text-[#d41111]" onClick={() => setError(null)}>
             {error}
@@ -353,7 +359,8 @@ function Dashboard({ email }: { email: string }) {
         <Editor
           draft={draft}
           onClose={() => setDraft(null)}
-          onSaved={() => {
+          onSaved={(message) => {
+            setNotice(message);
             setDraft(null);
             loadLogos();
             loadQueue(query);
@@ -381,7 +388,7 @@ function Empty({ text }: { text: string }) {
   return <p className="px-4 py-10 text-center text-sm text-[#8d8f98]">{text}</p>;
 }
 
-function Editor({ draft, onClose, onSaved }: { draft: Draft; onClose: () => void; onSaved: () => void }) {
+function Editor({ draft, onClose, onSaved }: { draft: Draft; onClose: () => void; onSaved: (notice: string) => void }) {
   const [name, setName] = useState(draft.name);
   const [kind, setKind] = useState<OrgKind>(draft.kind);
   const [aliases, setAliases] = useState(draft.aliases);
@@ -434,13 +441,12 @@ function Editor({ draft, onClose, onSaved }: { draft: Draft; onClose: () => void
 
   async function save() {
     const cleanName = name.trim();
-    if (!cleanName) return setError("Le nom est obligatoire.");
-    if (!rendered && !draft.existing) return setError("Ajoute une image.");
+    if (cleanName.length < 2) return setError("Le nom est obligatoire.");
     setBusy(true);
     setError(null);
     try {
-      let logo_url = draft.existing?.logo_url ?? "";
-      let storage_path = draft.existing?.storage_path ?? "";
+      let logo_url: string | null = null;
+      let storage_path: string | null = null;
       if (rendered) {
         // Nom de fichier unique à chaque envoi : l'URL change, donc aucun cache
         // (téléphone ou CDN) ne peut resservir l'ancienne image.
@@ -451,22 +457,29 @@ function Editor({ draft, onClose, onSaved }: { draft: Draft; onClose: () => void
         if (up.error) throw up.error;
         logo_url = supabase.storage.from(LOGO_BUCKET).getPublicUrl(storage_path).data.publicUrl;
       }
-      const payload = {
-        name: cleanName,
-        kind,
-        logo_url,
-        storage_path,
-        aliases: aliases.split(",").map((a) => a.trim()).filter(Boolean),
-      };
-      // name_norm est recalculé par trigger : on ne l'envoie pas.
-      const res = draft.existing
-        ? await supabase.from("organization_logos").update(payload).eq("name_norm", draft.existing.name_norm)
-        : await supabase.from("organization_logos").upsert(payload, { onConflict: "name_norm" });
-      if (res.error) throw res.error;
+      // Un seul appel, une seule transaction : catalogue + logo éventuel.
+      const res = await supabase.rpc("admin_save_organization", {
+        p_name: cleanName,
+        p_kind: kind,
+        p_aliases: aliases.split(",").map((a) => a.trim()).filter(Boolean),
+        p_logo_url: logo_url,
+        p_storage_path: storage_path,
+        p_previous_name_norm: draft.existing?.name_norm ?? null,
+      });
+      if (res.error) {
+        // Le fichier envoyé n'est rattaché à rien : on ne le laisse pas traîner.
+        if (storage_path) await supabase.storage.from(LOGO_BUCKET).remove([storage_path]);
+        throw res.error;
+      }
       if (rendered && draft.existing?.storage_path) {
         await supabase.storage.from(LOGO_BUCKET).remove([draft.existing.storage_path]);
       }
-      onSaved();
+      const created = (res.data as { created?: boolean } | null)?.created;
+      onSaved(
+        rendered
+          ? `« ${cleanName} » : logo enregistré${created ? ", et ajouté au catalogue" : ""}.`
+          : `« ${cleanName} » ${created ? "ajouté au catalogue" : "mis à jour dans le catalogue"}.`,
+      );
     } catch (e) {
       setError(e instanceof Error ? e.message : "Enregistrement impossible.");
       setBusy(false);
@@ -481,7 +494,10 @@ function Editor({ draft, onClose, onSaved }: { draft: Draft; onClose: () => void
         className="max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6"
         onMouseDown={(e) => e.stopPropagation()}
       >
-        <h2 className="mb-4 text-lg font-bold">{draft.existing ? "Modifier le logo" : "Ajouter un logo"}</h2>
+        <h2 className="text-lg font-bold">{draft.existing ? "Modifier" : "Ajouter une école ou une entreprise"}</h2>
+        <p className="mb-4 text-sm text-[#8d8f98]">
+          Le nom est proposé à la saisie dans l&apos;app. L&apos;image est facultative : sans elle, l&apos;app affiche les initiales.
+        </p>
 
         <div className="grid gap-6 md:grid-cols-2">
           <div>
