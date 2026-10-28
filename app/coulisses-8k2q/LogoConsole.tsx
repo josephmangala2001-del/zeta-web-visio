@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { LOGO_BUCKET, supabase, type LogoRow, type OrgKind, type QueueRow } from "./supabase";
+import { BlockedMessagesPanel, ReportsPanel } from "./Moderation";
 
 // ─── Rendu identique à app/components/CompanyLogo.tsx de l'app mobile ───
 
@@ -196,7 +197,53 @@ type Draft = {
   aliases: string;
 };
 
+type Section = "logos" | "reports" | "blocked";
+
+const SECTIONS: [Section, string][] = [
+  ["reports", "Signalements"],
+  ["blocked", "Messages bloqués"],
+  ["logos", "Écoles et entreprises"],
+];
+
 function Dashboard({ email }: { email: string }) {
+  const [section, setSection] = useState<Section>("reports");
+
+  return (
+    <main className="min-h-screen bg-[#f1f0f0] px-4 py-6 md:px-10">
+      <div className="mx-auto max-w-5xl">
+        <header className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h1 className="text-2xl font-bold">Console Zeeta</h1>
+          <div className="flex items-center gap-3 text-sm">
+            <span className="text-[#8d8f98]">{email}</span>
+            <button onClick={() => supabase.auth.signOut()} className="rounded-lg border border-[#eae9e9] bg-white px-3 py-1.5">
+              Déconnexion
+            </button>
+          </div>
+        </header>
+
+        <nav className="mb-6 flex gap-1 overflow-x-auto border-b border-[#eae9e9]">
+          {SECTIONS.map(([key, label]) => (
+            <button
+              key={key}
+              onClick={() => setSection(key)}
+              className={`-mb-px shrink-0 border-b-2 px-4 py-2 text-sm font-semibold ${
+                section === key ? "border-[#d41111] text-[#d41111]" : "border-transparent text-[#8d8f98]"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </nav>
+
+        {section === "reports" && <ReportsPanel />}
+        {section === "blocked" && <BlockedMessagesPanel />}
+        {section === "logos" && <LogosPanel />}
+      </div>
+    </main>
+  );
+}
+
+function LogosPanel() {
   const [tab, setTab] = useState<"queue" | "logos">("queue");
   const [query, setQuery] = useState("");
   const [queue, setQueue] = useState<QueueRow[]>([]);
@@ -248,20 +295,12 @@ function Dashboard({ email }: { email: string }) {
   }
 
   return (
-    <main className="min-h-screen bg-[#f1f0f0] px-4 py-6 md:px-10">
-      <div className="mx-auto max-w-5xl">
-        <header className="mb-6 flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h1 className="text-2xl font-bold">Logos des écoles et entreprises</h1>
-            <p className="text-sm text-[#8d8f98]">Chaque enregistrement apparaît dans l&apos;app en quelques secondes.</p>
-          </div>
-          <div className="flex items-center gap-3 text-sm">
-            <span className="text-[#8d8f98]">{email}</span>
-            <button onClick={() => supabase.auth.signOut()} className="rounded-lg border border-[#eae9e9] bg-white px-3 py-1.5">
-              Déconnexion
-            </button>
-          </div>
-        </header>
+    <>
+      <div>
+        <p className="mb-4 text-sm text-[#8d8f98]">
+          Écoles et entreprises proposées à la saisie, et leurs logos. Chaque enregistrement apparaît dans l&apos;app en
+          quelques secondes.
+        </p>
 
         <div className="mb-4 flex flex-wrap items-center gap-2">
           {(
@@ -367,7 +406,7 @@ function Dashboard({ email }: { email: string }) {
           }}
         />
       )}
-    </main>
+    </>
   );
 }
 
