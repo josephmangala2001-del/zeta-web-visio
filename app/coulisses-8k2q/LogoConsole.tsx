@@ -48,16 +48,69 @@ const KIND_LABEL: Record<OrgKind, string> = { company: "Entreprise", school: "É
 
 const OUTPUT_SIZE = 512;
 
-/** Carré PNG 512 px, logo centré sans déformation. Les SVG sont rastérisés au passage. */
-async function renderLogo(file: Blob, whiteBg: boolean, marginPct: number): Promise<Blob> {
+type Box = { x: number; y: number; w: number; h: number };
+
+/**
+ * Cadre du logo dans l'image : tout ce qui diffère du fond (couleur des coins,
+ * ou transparence). Les fichiers récupérés sur le web arrivent souvent avec de
+ * larges marges blanches ou des bandes latérales ; sur la carte profil (26 px)
+ * le logo n'y occupait plus qu'une dizaine de pixels.
+ */
+function contentBox(img: HTMLImageElement, w: number, h: number): Box {
+  const full = { x: 0, y: 0, w, h };
+  const c = document.createElement("canvas");
+  c.width = w;
+  c.height = h;
+  const ctx = c.getContext("2d", { willReadFrequently: true });
+  if (!ctx) return full;
+  ctx.drawImage(img, 0, 0, w, h);
+  let data: Uint8ClampedArray;
+  try {
+    data = ctx.getImageData(0, 0, w, h).data;
+  } catch {
+    return full;
+  }
+  const at = (x: number, y: number) => (y * w + x) * 4;
+  // Fond = coin haut gauche ; un coin transparent veut dire fond transparent.
+  const bg = at(0, 0);
+  const bgR = data[bg], bgG = data[bg + 1], bgB = data[bg + 2], bgA = data[bg + 3];
+  const TOL = 24;
+  const isContent = (i: number) => {
+    const a = data[i + 3];
+    if (bgA < 16) return a > 16;
+    if (a < 16) return false;
+    return Math.abs(data[i] - bgR) > TOL || Math.abs(data[i + 1] - bgG) > TOL || Math.abs(data[i + 2] - bgB) > TOL;
+  };
+  let minX = w, minY = h, maxX = -1, maxY = -1;
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      if (!isContent(at(x, y))) continue;
+      if (x < minX) minX = x;
+      if (x > maxX) maxX = x;
+      if (y < minY) minY = y;
+      if (y > maxY) maxY = y;
+    }
+  }
+  if (maxX < 0) return full;
+  return { x: minX, y: minY, w: maxX - minX + 1, h: maxY - minY + 1 };
+}
+
+/**
+ * Carré PNG 512 px, logo recadré sur son contenu puis centré sans déformation.
+ * Les SVG sont rastérisés au passage.
+ */
+async function renderLogo(file: Blob, whiteBg: boolean, marginPct: number): Promise<{ blob: Blob; aspect: number }> {
   const url = URL.createObjectURL(file);
   try {
     const img = new Image();
     img.src = url;
     await img.decode();
     // Un SVG sans width/height annonce 0 × 0.
-    const w = img.naturalWidth || OUTPUT_SIZE;
-    const h = img.naturalHeight || OUTPUT_SIZE;
+    const srcW = img.naturalWidth || OUTPUT_SIZE;
+    const srcH = img.naturalHeight || OUTPUT_SIZE;
+    const box = contentBox(img, srcW, srcH);
+    const w = box.w;
+    const h = box.h;
     const canvas = document.createElement("canvas");
     canvas.width = canvas.height = OUTPUT_SIZE;
     const ctx = canvas.getContext("2d")!;
@@ -70,10 +123,17 @@ async function renderLogo(file: Blob, whiteBg: boolean, marginPct: number): Prom
     const dw = w * scale;
     const dh = h * scale;
     ctx.imageSmoothingQuality = "high";
-    ctx.drawImage(img, (OUTPUT_SIZE - dw) / 2, (OUTPUT_SIZE - dh) / 2, dw, dh);
-    return await new Promise<Blob>((resolve, reject) =>
+    // Les coordonnées source sont en pixels naturels : on redessine l'image
+    // pleine taille dans un canevas intermédiaire pour qu'un SVG 0 × 0 suive.
+    const src = document.createElement("canvas");
+    src.width = srcW;
+    src.height = srcH;
+    src.getContext("2d")!.drawImage(img, 0, 0, srcW, srcH);
+    ctx.drawImage(src, box.x, box.y, w, h, (OUTPUT_SIZE - dw) / 2, (OUTPUT_SIZE - dh) / 2, dw, dh);
+    const blob = await new Promise<Blob>((resolve, reject) =>
       canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("Conversion impossible"))), "image/png"),
     );
+    return { blob, aspect: w / h };
   } finally {
     URL.revokeObjectURL(url);
   }
@@ -435,7 +495,9 @@ function Editor({ draft, onClose, onSaved }: { draft: Draft; onClose: () => void
   const [aliases, setAliases] = useState(draft.aliases);
   const [file, setFile] = useState<File | null>(null);
   const [whiteBg, setWhiteBg] = useState(true);
-  const [margin, setMargin] = useState(8);
+  const [margin, setMargin] = useState(4);
+  // Largeur / hauteur du logo une fois recadré : au-delà de 2, il devient illisible en 26 px.
+  const [aspect, setAspect] = useState(1);
   const [rendered, setRendered] = useState<Blob | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(draft.existing?.logo_url ?? null);
   const [dragOver, setDragOver] = useState(false);
@@ -467,10 +529,11 @@ function Editor({ draft, onClose, onSaved }: { draft: Draft; onClose: () => void
     let url: string | null = null;
     let cancelled = false;
     renderLogo(file, whiteBg, margin)
-      .then((blob) => {
+      .then(({ blob, aspect: a }) => {
         if (cancelled) return;
         url = URL.createObjectURL(blob);
         setRendered(blob);
+        setAspect(a);
         setPreviewUrl(url);
       })
       .catch(() => !cancelled && setError("Impossible de lire cette image."));
@@ -581,6 +644,12 @@ function Editor({ draft, onClose, onSaved }: { draft: Draft; onClose: () => void
                   <input type="range" min={0} max={20} value={margin} onChange={(e) => setMargin(Number(e.target.value))} />
                   {margin} %
                 </label>
+                {aspect > 2 && (
+                  <p className="rounded-lg bg-[#fff4e5] px-3 py-2 text-xs text-[#8a5300]">
+                    Logo très large : sur les cartes profil (26 px), le texte sera illisible. Utilise plutôt le
+                    symbole seul de la marque, sans son nom.
+                  </p>
+                )}
               </div>
             )}
 
