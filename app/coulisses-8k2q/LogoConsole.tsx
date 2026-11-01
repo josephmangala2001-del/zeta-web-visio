@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { LOGO_BUCKET, supabase, type LogoRow, type OrgKind, type QueueRow } from "./supabase";
-import { BlockedMessagesPanel, BlockedTermsPanel, ReportsPanel } from "./Moderation";
+import { InboxPanel, useInboxCount } from "./Inbox";
+import { BlockedMessagesPanel, BlockedTermsPanel } from "./Moderation";
 
 // ─── Rendu identique à app/components/CompanyLogo.tsx de l'app mobile ───
 
@@ -257,17 +258,18 @@ type Draft = {
   aliases: string;
 };
 
-type Section = "logos" | "reports" | "blocked" | "terms";
+type Section = "logos" | "inbox" | "blocked" | "terms";
 
 const SECTIONS: [Section, string][] = [
-  ["reports", "Signalements"],
+  ["inbox", "Boîte Zeeta"],
   ["blocked", "Messages bloqués"],
   ["terms", "Mots interdits"],
   ["logos", "Écoles et entreprises"],
 ];
 
 function Dashboard({ email }: { email: string }) {
-  const [section, setSection] = useState<Section>("reports");
+  const [section, setSection] = useState<Section>("inbox");
+  const { count: inboxCount, refresh: refreshInboxCount } = useInboxCount();
 
   return (
     <main className="min-h-screen bg-[#f1f0f0] px-4 py-6 md:px-10">
@@ -292,11 +294,14 @@ function Dashboard({ email }: { email: string }) {
               }`}
             >
               {label}
+              {key === "inbox" && !!inboxCount && (
+                <span className="ml-2 rounded-full bg-[#d41111] px-2 py-0.5 text-xs text-white">{inboxCount}</span>
+              )}
             </button>
           ))}
         </nav>
 
-        {section === "reports" && <ReportsPanel />}
+        {section === "inbox" && <InboxPanel onChanged={refreshInboxCount} />}
         {section === "blocked" && <BlockedMessagesPanel />}
         {section === "terms" && <BlockedTermsPanel />}
         {section === "logos" && <LogosPanel />}
