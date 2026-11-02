@@ -13,7 +13,7 @@ const SOURCE_LABEL: Record<string, string> = {
   profile: "Profil",
 };
 
-const CATEGORY_LABEL: Record<string, string> = {
+export const CATEGORY_LABEL: Record<string, string> = {
   contact: "Contact",
   bug: "Bug",
   payment: "Paiement",
@@ -78,7 +78,7 @@ export function useInboxCount() {
   return { count, refresh };
 }
 
-export function InboxPanel({ onChanged }: { onChanged: () => void }) {
+export function InboxPanel({ onChanged, onOpenUser }: { onChanged: () => void; onOpenUser: (id: string) => void }) {
   const [filter, setFilter] = useState<Filter>("open");
   const [query, setQuery] = useState("");
   const [rows, setRows] = useState<SupportRequest[] | null>(null);
@@ -152,6 +152,7 @@ export function InboxPanel({ onChanged }: { onChanged: () => void }) {
                 key={selected.id}
                 row={selected}
                 onBack={() => setSelectedId(null)}
+                onOpenUser={onOpenUser}
                 onChanged={() => {
                   load(filter, query);
                   onChanged();
@@ -182,7 +183,17 @@ function MessageRow({ row, active, onSelect }: { row: SupportRequest; active: bo
   );
 }
 
-function MessageDetail({ row, onBack, onChanged }: { row: SupportRequest; onBack: () => void; onChanged: () => void }) {
+function MessageDetail({
+  row,
+  onBack,
+  onChanged,
+  onOpenUser,
+}: {
+  row: SupportRequest;
+  onBack: () => void;
+  onChanged: () => void;
+  onOpenUser: (id: string) => void;
+}) {
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -250,6 +261,11 @@ function MessageDetail({ row, onBack, onChanged }: { row: SupportRequest; onBack
           placeholder={row.admin_note ? "Remplacer la note interne…" : "Note interne (facultatif)…"}
           className="min-w-0 flex-1 basis-full rounded-lg border border-[#eae9e9] px-3 py-2 text-sm outline-none focus:border-[#d41111]"
         />
+        {row.user_id && (
+          <button onClick={() => onOpenUser(row.user_id as string)} className="rounded-lg border border-[#eae9e9] px-3 py-1.5 text-sm">
+            Voir la fiche
+          </button>
+        )}
         {row.user_email && (
           <a
             href={`mailto:${row.user_email}?subject=${encodeURIComponent(replySubject)}`}

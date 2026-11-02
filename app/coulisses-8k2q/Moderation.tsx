@@ -5,7 +5,7 @@ import { supabase } from "./supabase";
 
 // ─── Libellés ───
 
-const REASON_LABEL: Record<string, string> = {
+export const REASON_LABEL: Record<string, string> = {
   email: "Adresse e-mail",
   phone: "Numéro de téléphone",
   external_link: "Lien externe",

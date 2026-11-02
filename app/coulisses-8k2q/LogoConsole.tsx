@@ -5,6 +5,8 @@ import type { Session } from "@supabase/supabase-js";
 import { LOGO_BUCKET, supabase, type LogoRow, type OrgKind, type QueueRow } from "./supabase";
 import { InboxPanel, useInboxCount } from "./Inbox";
 import { BlockedMessagesPanel, BlockedTermsPanel } from "./Moderation";
+import { OverviewPanel } from "./Overview";
+import { UsersPanel } from "./Users";
 
 // ─── Rendu identique à app/components/CompanyLogo.tsx de l'app mobile ───
 
@@ -258,17 +260,20 @@ type Draft = {
   aliases: string;
 };
 
-type Section = "logos" | "inbox" | "blocked" | "terms";
+type Section = "overview" | "users" | "logos" | "inbox" | "blocked" | "terms";
 
 const SECTIONS: [Section, string][] = [
+  ["overview", "Tableau de bord"],
   ["inbox", "Boîte Zeeta"],
+  ["users", "Utilisateurs"],
   ["blocked", "Messages bloqués"],
   ["terms", "Mots interdits"],
   ["logos", "Écoles et entreprises"],
 ];
 
 function Dashboard({ email }: { email: string }) {
-  const [section, setSection] = useState<Section>("inbox");
+  const [section, setSection] = useState<Section>("overview");
+  const [userId, setUserId] = useState<string | null>(null);
   const { count: inboxCount, refresh: refreshInboxCount } = useInboxCount();
 
   return (
@@ -301,7 +306,19 @@ function Dashboard({ email }: { email: string }) {
           ))}
         </nav>
 
-        {section === "inbox" && <InboxPanel onChanged={refreshInboxCount} />}
+        {section === "overview" && (
+          <OverviewPanel onOpenInbox={() => setSection("inbox")} />
+        )}
+        {section === "inbox" && (
+          <InboxPanel
+            onChanged={refreshInboxCount}
+            onOpenUser={(id) => {
+              setUserId(id);
+              setSection("users");
+            }}
+          />
+        )}
+        {section === "users" && <UsersPanel userId={userId} onSelectUser={setUserId} />}
         {section === "blocked" && <BlockedMessagesPanel />}
         {section === "terms" && <BlockedTermsPanel />}
         {section === "logos" && <LogosPanel />}
